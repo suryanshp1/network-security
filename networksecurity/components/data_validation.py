@@ -11,8 +11,10 @@ import sys
 
 
 class DataValidation:
-    def __init__(self):
-        pass
+    def __init__(self, data_ingestion_artifact: DataIngestionArtifact, data_validation_config: DataValidationConfig):
+        self.data_ingestion_artifact = data_ingestion_artifact
+        self.data_validation_config = data_validation_config
+        self._schema_config = read_yaml_file(SCHEMA_FILE_PATH)
 
     def validate_number_of_columns(self, dataframe: pd.DataFrame) -> bool:
         try:
