@@ -51,6 +51,9 @@ class ModelEvaluation:
                 )
 
                 logging.info(f"Model evaluation artifact : {model_evaluation_artifact}")
+
+                model_eval_report = model_evaluation_artifact.__dict__
+                write_yaml_file(self.model_evaluation_config.report_file_path, model_eval_report)
                 return model_evaluation_artifact
             
             latest_model_path = model_resolver.get_best_model_path()
@@ -75,9 +78,11 @@ class ModelEvaluation:
             train_model_metric_artifact=trained_metric, best_model_metric_artifact=latest_metric
             )
 
-            model_eval_report = model_evaluation_artifact.__dict__
+            # save the report
+            # dir_path = os.path.dirname(self.model_evaluation_config.model_evaluation_dir)
+            # os.makedirs(dir_path, exist_ok=True)
 
-            # save the report 
+            model_eval_report = model_evaluation_artifact.__dict__
             write_yaml_file(self.model_evaluation_config.report_file_path, model_eval_report)
             logging.info(f"Model Evaluation Artifact : {model_evaluation_artifact}")
             return model_evaluation_artifact

@@ -70,12 +70,12 @@ class TrainingPipeline:
         try:
             model_evaluation_config: ModelEvaluationConfig = ModelEvaluationConfig(training_pipeline_config=self.training_pipeline_config)
             model_eval = ModelEvaluation(model_evaluation_config=model_evaluation_config, model_trainer_artifact=model_trainer_artifact, data_validation_artifact=data_validation_artifact)
-            model_eval.initiate_model_evaluation()
+            model_evaluation_artifact = model_eval.initiate_model_evaluation()
+            return model_evaluation_artifact
         except Exception as e:
             raise NetworkSecurityException(e, sys)
         
-    def start_model_pusher(self):
-        
+    def start_model_pusher(self, model_evaluation_artifact: ModelEvaluationArtifact):
         try:
             pass
         except Exception as e:
@@ -97,7 +97,12 @@ class TrainingPipeline:
             # print(data_transformation_artifact)
             model_trainer_artifact = self.start_model_trainer(data_transformation_artifact=data_transformation_artifact)
             # print(model_trainer_artifact)
-            self.start_model_evaluation(model_trainer_artifact=model_trainer_artifact)
+            model_evaluation_artifact = self.start_model_evaluation(model_trainer_artifact=model_trainer_artifact, data_validation_artifact=data_validation_artifact)
+            if not model_evaluation_artifact.is_model_accepted:
+                raise Exception("Trained model is not better than the best model")
+            print(model_evaluation_artifact)
+
+            # model_pusher_artifact = self.start_model_pusher(model_evaluation_artifact=model_evaluation_artifact)
 
         except Exception as e:
             raise NetworkSecurityException(e, sys)
