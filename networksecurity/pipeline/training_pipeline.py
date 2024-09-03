@@ -101,5 +101,10 @@ class TrainingPipeline:
 
             model_pusher_artifact = self.start_model_pusher(model_evaluation_artifact=model_evaluation_artifact)
 
+            TrainingPipeline.is_pipeline_running = False
+
+            self.sync_artifact_dir_to_self()
+            self.sync_saved_model_dir_to_s3()
+
         except Exception as e:
             raise NetworkSecurityException(e, sys)
