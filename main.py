@@ -6,6 +6,7 @@ ca = certifi.where()
 
 from dotenv import load_dotenv
 load_dotenv()
+
 mongo_db_url = os.getenv("MONGO_DB_URL")
 
 AWS_ACCESS_KEY_ID=os.getenv("AWS_ACCESS_KEY_ID")

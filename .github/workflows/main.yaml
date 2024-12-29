@@ -1,9 +1,9 @@
-name: workflow
+name: CI/CD pipeline workflow
 
 on:
   push:
     branches:
-      - master
+      - main
     paths-ignore:
       - 'README.md'
 
